@@ -9,12 +9,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class ProductService {
     private final ProductRepository productRepository;
+    private final org.modelmapper.ModelMapper mapper = new org.modelmapper.ModelMapper();
 
     public void createProduct(ProductRequest productRequest) {
         Product product = Product.builder()
@@ -29,6 +31,11 @@ public class ProductService {
     public List<ProductResponse> getAllProducts() {
         List<Product> products = productRepository.findAll();
         return products.stream().map(this::mapToProductResponse).toList();
+    }
+
+    public ProductResponse getProductById(String id) {
+        Product product = productRepository.findById(id).orElse(null);
+        return mapper.map(product, ProductResponse.class);
     }
 
     private ProductResponse mapToProductResponse(Product product) {
