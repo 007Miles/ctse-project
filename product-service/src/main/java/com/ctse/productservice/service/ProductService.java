@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +35,22 @@ public class ProductService {
     public ProductResponse getProductById(String id) {
         Product product = productRepository.findById(id).orElse(null);
         return mapper.map(product, ProductResponse.class);
+    }
+
+    public ProductResponse updateProductById(String id, ProductRequest productRequest) {
+        Product product = productRepository.findById(id).orElse(null);
+        if (product == null) return null;
+        if (productRequest.getName() != null && !productRequest.getName().isEmpty()) {
+            product.setName(productRequest.getName());
+        }
+        if (productRequest.getDescription() != null && !productRequest.getDescription().isEmpty()) {
+            product.setDescription(productRequest.getDescription());
+        }
+        if (productRequest.getPrice() != null) {
+            product.setPrice(productRequest.getPrice());
+        }
+        Product updatedProduct = productRepository.save(product);
+        return mapper.map(updatedProduct, ProductResponse.class);
     }
 
     private ProductResponse mapToProductResponse(Product product) {
