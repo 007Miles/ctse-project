@@ -54,6 +54,13 @@ public class ProductService {
         return mapper.map(updatedProduct, ProductResponse.class);
     }
 
+    public String  deleteProductById(String id) {
+        Product product = productRepository.findById(id).orElse(null);
+        if (product == null) return "No product exist with the given id: " + id;
+        productRepository.deleteById(id);
+        return "Successfully deleted product with id: " + id;
+    }
+
     private ProductResponse mapToProductResponse(Product product) {
         return ProductResponse.builder()
                 .id(product.getId())

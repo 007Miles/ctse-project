@@ -35,9 +35,14 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     public ProductResponse updateProductById(@PathVariable final String id, @RequestBody ProductRequest productRequest) {
         return productService.updateProductById(id, productRequest);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public String deleteProductById(@PathVariable final String id) {
+        return productService.deleteProductById(id);
+    }
 }
