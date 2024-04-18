@@ -17,14 +17,15 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final org.modelmapper.ModelMapper mapper = new org.modelmapper.ModelMapper();
 
-    public void createProduct(ProductRequest productRequest) {
+    public ProductResponse createProduct(ProductRequest productRequest) {
         Product product = Product.builder()
                 .name(productRequest.getName())
                 .description(productRequest.getDescription())
                 .price(productRequest.getPrice())
                 .build();
 
-        productRepository.save(product);
+        Product createdProduct = productRepository.save(product);
+        return mapper.map(createdProduct, ProductResponse.class);
     }
 
     public List<ProductResponse> getAllProducts() {
