@@ -30,4 +30,8 @@ public class OrderService {
     private OrderLineItem mapToDto(OrderLineItemDto orderLineItemDto) {
         return mapper.map(orderLineItemDto, OrderLineItem.class);
     }
+
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
 }
