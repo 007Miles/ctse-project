@@ -30,4 +30,8 @@ public class InventoryService {
     public List<Inventory> getAllInventory() {
         return inventoryRepository.findAll();
     }
+
+    public Inventory getInventoryById(Long id) {
+        return inventoryRepository.findById(id).orElse(null);
+    }
 }
