@@ -48,6 +48,13 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
+    public String deleteOrderById(Long id) {
+        Order order = orderRepository.findById(id).orElse(null);
+        if (order == null) return "No order exist with the given id: " + id;
+        orderRepository.deleteById(id);
+        return "Successfully deleted order with id: " + id;
+    }
+
     private OrderLineItem mapToDto(OrderLineItemDto orderLineItemDto) {
         return mapper.map(orderLineItemDto, OrderLineItem.class);
     }

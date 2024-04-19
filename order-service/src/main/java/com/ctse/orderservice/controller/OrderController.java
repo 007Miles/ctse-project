@@ -38,4 +38,10 @@ public class OrderController {
     public Order updateOrderById(@PathVariable Long id, @RequestBody OrderRequest orderRequest) {
         return orderService.updateOrderById(id, orderRequest);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public String deleteOrderById(@PathVariable Long id) {
+        return orderService.deleteOrderById(id);
+    }
 }
