@@ -34,4 +34,17 @@ public class InventoryService {
     public Inventory getInventoryById(Long id) {
         return inventoryRepository.findById(id).orElse(null);
     }
+
+    public Inventory updateInventoryById(Long id, InventoryRequest inventoryRequest) {
+        Inventory inventory = inventoryRepository.findById(id).orElse(null);
+        if (inventory == null) return null;
+        if (inventoryRequest.getSkuCode() != null && !inventoryRequest.getSkuCode().isEmpty()) {
+            inventory.setSkuCode(inventoryRequest.getSkuCode());
+        }
+        if (inventoryRequest.getQuantity() != null) {
+            inventory.setQuantity(inventoryRequest.getQuantity());
+            inventory.setAvailable(inventory.getQuantity() > 0);
+        }
+        return inventoryRepository.save(inventory);
+    }
 }
