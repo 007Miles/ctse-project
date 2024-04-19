@@ -27,11 +27,15 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    private OrderLineItem mapToDto(OrderLineItemDto orderLineItemDto) {
-        return mapper.map(orderLineItemDto, OrderLineItem.class);
-    }
-
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
+    }
+
+    public Order getOrderById(Long id) {
+        return orderRepository.findById(id).orElse(null);
+    }
+
+    private OrderLineItem mapToDto(OrderLineItemDto orderLineItemDto) {
+        return mapper.map(orderLineItemDto, OrderLineItem.class);
     }
 }
