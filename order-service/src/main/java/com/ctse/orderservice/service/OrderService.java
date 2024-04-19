@@ -35,6 +35,19 @@ public class OrderService {
         return orderRepository.findById(id).orElse(null);
     }
 
+    public Order updateOrderById(Long id, OrderRequest orderRequest) {
+        Order order = orderRepository.findById(id).orElse(null);
+        if (order == null) return null;
+        List<OrderLineItem> orderLineItemList = order.getOrderLineItemList();
+        List<OrderLineItem> newOrderLineItemList = orderRequest.getOrderLineItemList()
+                .stream()
+                .map(this::mapToDto)
+                .toList();
+        orderLineItemList.addAll(newOrderLineItemList);
+        order.setOrderLineItemList(orderLineItemList);
+        return orderRepository.save(order);
+    }
+
     private OrderLineItem mapToDto(OrderLineItemDto orderLineItemDto) {
         return mapper.map(orderLineItemDto, OrderLineItem.class);
     }
