@@ -47,4 +47,11 @@ public class InventoryService {
         }
         return inventoryRepository.save(inventory);
     }
+
+    public String  deleteInventoryById(Long id) {
+        Inventory inventory = inventoryRepository.findById(id).orElse(null);
+        if (inventory == null) return "No inventory exist with the given id: " + id;
+        inventoryRepository.deleteById(id);
+        return "Successfully deleted inventory with id: " + id;
+    }
 }

@@ -44,4 +44,10 @@ public class InventoryController {
     public Inventory updateInventoryById(@PathVariable Long id, @RequestBody InventoryRequest inventoryRequest) {
         return inventoryService.updateInventoryById(id, inventoryRequest);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public String deleteInventoryById(@PathVariable Long id) {
+        return inventoryService.deleteInventoryById(id);
+    }
 }
