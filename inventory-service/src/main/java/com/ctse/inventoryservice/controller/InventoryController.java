@@ -32,4 +32,10 @@ public class InventoryController {
     public List<Inventory> getAllInventory() {
         return inventoryService.getAllInventory();
     }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Inventory getInventoryById(@PathVariable Long id) {
+        return inventoryService.getInventoryById(id);
+    }
 }
