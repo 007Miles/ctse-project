@@ -1,6 +1,7 @@
 package com.ctse.inventoryservice.service;
 
 import com.ctse.inventoryservice.dto.InventoryRequest;
+import com.ctse.inventoryservice.dto.InventoryResponse;
 import com.ctse.inventoryservice.model.Inventory;
 import com.ctse.inventoryservice.repository.InventoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +24,14 @@ public class InventoryService {
         return inventoryRepository.save(inventory);
     }
 
-    public boolean isInStock(String skuCode) {
-        return inventoryRepository.findBySkuCodeAndIsAvailable(skuCode, true).isPresent();
+    public List<InventoryResponse> isInStock(List<String> skuCode) {
+        return inventoryRepository.findBySkuCodeIn(skuCode).stream()
+                .map(inventory ->
+                    InventoryResponse.builder()
+                            .skuCode(inventory.getSkuCode())
+                            .isInStock(inventory.getQuantity() > 0)
+                            .build()
+                ).toList();
     }
 
     public List<Inventory> getAllInventory() {
