@@ -25,7 +25,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final org.modelmapper.ModelMapper mapper = new org.modelmapper.ModelMapper();
-    private final WebClient webClient;
+    private final WebClient.Builder webClientBuilder;
 
     public Order createOrder(OrderRequest orderRequest) {
         Order order = new Order();
@@ -41,8 +41,8 @@ public class OrderService {
                 .toList();
 
         //call inventory micro service
-        InventoryResponse[] inventoryResponseList = webClient.get()
-                .uri(inventoryUrl + "/api/inventory/available",
+        InventoryResponse[] inventoryResponseList = webClientBuilder.build().get()
+                .uri("http://inventory-service/api/inventory/available",
                         uriBuilder -> uriBuilder.queryParam("skuCode", skuCodeList).build())
                 .retrieve()
                 .bodyToMono(InventoryResponse[].class)
