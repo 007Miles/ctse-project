@@ -1,6 +1,7 @@
 package com.ctse.inventoryservice.controller;
 
 import com.ctse.inventoryservice.dto.InventoryRequest;
+import com.ctse.inventoryservice.dto.InventoryResponse;
 import com.ctse.inventoryservice.model.Inventory;
 import com.ctse.inventoryservice.service.InventoryService;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,9 @@ public class InventoryController {
         return inventoryService.createInventory(inventoryRequest);
     }
 
-    @GetMapping("/available/{skuCode}")
+    @GetMapping("/available")
     @ResponseStatus(HttpStatus.OK)
-    public boolean isInStock(@PathVariable String skuCode) {
+    public List<InventoryResponse> isInStock(@RequestParam List<String > skuCode) {
         return inventoryService.isInStock(skuCode);
     }
 
